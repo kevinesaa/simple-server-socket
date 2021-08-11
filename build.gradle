@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+    id 'application'
+
+    //https://github.com/johnrengelman/shadow
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+group 'com.corp.esaa'
+version '1.0.0'
+
+
+application {
+    // Define the main class for the application.
+    mainClass = 'com.esaa.corp.main.views.Main'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
