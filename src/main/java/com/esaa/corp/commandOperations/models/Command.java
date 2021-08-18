@@ -4,6 +4,7 @@ public enum Command {
 
     HELP,
     START,
+    START_FOREGROUND,
     STOP,
     LIST_COM_PORTS;
 

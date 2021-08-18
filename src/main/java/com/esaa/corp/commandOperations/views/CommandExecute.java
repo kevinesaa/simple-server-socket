@@ -6,6 +6,8 @@ import com.esaa.corp.commandOperations.models.RouteSingleCommand;
 import com.esaa.corp.commandOperations.models.RouteWithArgsCommand;
 import com.esaa.corp.commandOperations.views.operations.Help;
 import com.esaa.corp.commandOperations.views.operations.ServerStart;
+import com.esaa.corp.commandOperations.views.operations.ServerStartForeground;
+import com.esaa.corp.commandOperations.views.operations.ServerStop;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,11 +34,11 @@ public class CommandExecute {
     }
 
     public void Execute(final Command command) {
-        if(singleCommandRoutes == null){
+        if(singleCommandRoutes == null) {
             initSingleRoute();
         }
         final RouteSingleCommand singleCommandRoute = singleCommandRoutes.get(command);
-        if(singleCommandRoute == null){
+        if(singleCommandRoute == null) {
             LOGGER.log(Level.WARNING,"single command not mapping yet");
             return;
         }
@@ -44,18 +46,18 @@ public class CommandExecute {
     }
 
     public void Execute(final Command command, final CommandArgs commandArgs) {
-        if(commandRoutesWithArguments == null){
+        if(commandRoutesWithArguments == null) {
             initRouteWithArgs();
         }
         final RouteWithArgsCommand routeWithArgsCommand = commandRoutesWithArguments.get(command);
-        if(routeWithArgsCommand == null){
+        if(routeWithArgsCommand == null) {
             LOGGER.log(Level.WARNING,"Command with args not mapping yet");
             return;
         }
         routeWithArgsCommand.execute(commandArgs);
     }
 
-    private void initSingleRoute(){
+    private void initSingleRoute() {
         singleCommandRoutes = new HashMap<>();
 
         singleCommandRoutes.put(Command.HELP, Help::executeCommand);
@@ -64,7 +66,9 @@ public class CommandExecute {
     private void initRouteWithArgs(){
         commandRoutesWithArguments = new HashMap<>();
 
-        commandRoutesWithArguments.put(Command.START,ServerStart::executeCommand);
+        commandRoutesWithArguments.put(Command.START, ServerStart::executeCommand);
+        commandRoutesWithArguments.put(Command.START_FOREGROUND, ServerStartForeground::executeCommand);
+        commandRoutesWithArguments.put(Command.STOP, ServerStop::executeCommand);
 
     }
 }
