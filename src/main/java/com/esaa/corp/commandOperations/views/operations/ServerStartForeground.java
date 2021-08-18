@@ -7,8 +7,14 @@ import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.logging.Logger;
 
 public class ServerStartForeground {
+
+    private static final Logger LOGGER = Logger.getLogger(ServerStartForeground.class.getSimpleName());
+
+
+
 
 
     public static void executeCommand(final CommandArgs args) {

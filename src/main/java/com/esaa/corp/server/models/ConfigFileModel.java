@@ -1,14 +1,14 @@
 package com.esaa.corp.server.models;
 
-public class ConfigFile {
+public class ConfigFileModel {
 
     private String printer_port;
     private int server_port;
 
-    public ConfigFile() {
+    public ConfigFileModel() {
     }
 
-    public ConfigFile(String printerPort, int serverPort) {
+    public ConfigFileModel(String printerPort, int serverPort) {
         this.printer_port = printerPort;
         this.server_port = serverPort;
     }

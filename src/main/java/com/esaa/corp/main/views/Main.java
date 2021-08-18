@@ -54,7 +54,7 @@ public class Main {
         if (args.length > 1) {
             final CommandArgs commandArgs = new CommandArgs();
             for (int i = 1; i < args.length; i++) {
-                commandArgs.addArgument(args[i].toUpperCase());
+                commandArgs.addArgument(args[i]);
             }
 
             CommandExecute.getInstance().Execute(command, commandArgs);
