@@ -2,23 +2,23 @@ package com.esaa.corp.fileSystem.views;
 
 import java.io.File;
 
-public class MyFileSystem {
+public class MyFileSystemManager {
 
 
 
-    private static MyFileSystem INSTANCE;
+    private static MyFileSystemManager INSTANCE;
     private final File jarFile;
     private File jarDir = null;
     private File stopFile = null;
     private File startFile = null;
 
-    private MyFileSystem(){
+    private MyFileSystemManager(){
         jarFile = new File(System.getProperty("java.class.path")).getAbsoluteFile();
     }
 
-    public static MyFileSystem getInstance() {
+    public static MyFileSystemManager getInstance() {
         if(INSTANCE == null){
-            INSTANCE = new MyFileSystem();
+            INSTANCE = new MyFileSystemManager();
         }
 
         return INSTANCE;

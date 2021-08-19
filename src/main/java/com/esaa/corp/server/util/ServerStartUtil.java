@@ -27,17 +27,17 @@ public class ServerStartUtil {
         final boolean canRead = configFile.canRead();
 
         if (!exists) {
-            LOGGER.log(Level.SEVERE, configString + ": is not exist");
+            LOGGER.log(Level.WARNING, configString + ": is not exist");
         }
 
 
         if (!isFile) {
-            LOGGER.log(Level.SEVERE, configString + " is not a file");
+            LOGGER.log(Level.WARNING, configString + " is not a file");
         }
 
 
         if (!canRead) {
-            LOGGER.log(Level.SEVERE, configString + " could not be read");
+            LOGGER.log(Level.WARNING, configString + " could not be read");
         }
 
         if (!configFile.isAbsolute()) {
@@ -61,8 +61,7 @@ public class ServerStartUtil {
                 startFile.setConfigFileModel(configFileModel);
             }
             catch (Exception ex) {
-                ex.printStackTrace();
-
+                LOGGER.log(Level.WARNING, configString + " could not be parse",ex);
             }
             finally {
 
@@ -79,8 +78,9 @@ public class ServerStartUtil {
                         fileInputStream.close();
                     }
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                }
+                catch (IOException e) {
+                    LOGGER.log(Level.WARNING, configString + " could not be release",e);
                 }
             }
         }

@@ -2,7 +2,7 @@ package com.esaa.corp.commandOperations.views.operations;
 
 import com.esaa.corp.commandOperations.models.Command;
 import com.esaa.corp.commandOperations.models.CommandArgs;
-import com.esaa.corp.fileSystem.views.MyFileSystem;
+import com.esaa.corp.fileSystem.views.MyFileSystemManager;
 import com.esaa.corp.server.models.StartFile;
 import com.esaa.corp.server.util.ServerStartUtil;
 
@@ -25,20 +25,20 @@ public class ServerStart {
         }
         else {
 
+            final MyFileSystemManager myFileSystemManager = MyFileSystemManager.getInstance();
+            final String jarFile = myFileSystemManager.getJarFile().getAbsolutePath();
+            final String configPath = configFile.getAbsoluteFile().getAbsolutePath();
+            final String command = "java -jar \"" + jarFile + "\" " + Command.START_FOREGROUND + " \"" + configPath + "\"";
+
             try {
-                final MyFileSystem myFileSystem = MyFileSystem.getInstance();
-                final String jarFile = myFileSystem.getJarFile().getAbsolutePath();
-                final String configPath = configFile.getAbsoluteFile().getAbsolutePath();
-                final String command = "java -jar \"" + jarFile + "\" " + Command.START_FOREGROUND + " \"" + configPath + "\"";
 
                 Runtime.getRuntime().exec(command);
             }
             catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "fail to run process: "+command,e);
             }
 
         }
-
 
     }
 }
