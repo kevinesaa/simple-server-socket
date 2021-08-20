@@ -4,7 +4,7 @@ import com.esaa.corp.commandOperations.models.Command;
 import com.esaa.corp.commandOperations.models.CommandArgs;
 import com.esaa.corp.fileSystem.views.MyFileSystemManager;
 import com.esaa.corp.server.models.StartFile;
-import com.esaa.corp.server.util.ServerStartUtil;
+import com.esaa.corp.server.util.StartFileParser;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -18,7 +18,7 @@ public class ServerStart {
 
     public static void executeCommand(final CommandArgs args) {
 
-        final StartFile configFile = ServerStartUtil.parseConfigFile(args);
+        final StartFile configFile = StartFileParser.parseConfigFile(args);
         if (configFile.getAbsoluteFile() == null || configFile.getConfigFileModel() == null) {
 
             LOGGER.log(Level.SEVERE, "bad format config file");
@@ -28,7 +28,7 @@ public class ServerStart {
             final MyFileSystemManager myFileSystemManager = MyFileSystemManager.getInstance();
             final String jarFile = myFileSystemManager.getJarFile().getAbsolutePath();
             final String configPath = configFile.getAbsoluteFile().getAbsolutePath();
-            final String command = "java -jar \"" + jarFile + "\" " + Command.START_FOREGROUND + " \"" + configPath + "\"";
+            final String command = "java -jar \"" + jarFile + "\" " + Command.START_FOREGROUND.name() + " \"" + configPath + "\"";
 
             try {
 

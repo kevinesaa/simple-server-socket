@@ -6,7 +6,7 @@ import com.esaa.corp.fileSystem.models.MyLockFile;
 import com.esaa.corp.fileSystem.views.MyFileSystemManager;
 import com.esaa.corp.server.models.ConfigFileModel;
 import com.esaa.corp.server.models.StartFile;
-import com.esaa.corp.server.util.ServerStartUtil;
+import com.esaa.corp.server.util.StartFileParser;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -19,7 +19,7 @@ public class ServerStop {
     public static void executeCommand(final CommandArgs args) {
 
         LOGGER.log(Level.INFO, "Stopping server");
-        final StartFile configFile = ServerStartUtil.parseConfigFile(args);
+        final StartFile configFile = StartFileParser.parseConfigFile(args);
         if (configFile.getAbsoluteFile() == null || configFile.getConfigFileModel() == null) {
 
             LOGGER.log(Level.SEVERE, "bad format config file");

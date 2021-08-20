@@ -10,9 +10,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ServerStartUtil {
+public class StartFileParser {
 
-    private static final Logger LOGGER = Logger.getLogger(ServerStartUtil.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(StartFileParser.class.getSimpleName());
 
     private static final int CONFIG_FILE = 0;
 
