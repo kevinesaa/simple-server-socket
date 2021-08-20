@@ -1,14 +1,14 @@
 package com.esaa.corp.commandOperations.views.operations;
 
 import com.esaa.corp.commandOperations.models.CommandArgs;
-import com.esaa.corp.commons.anims.IndeterminateLoading;
-import com.esaa.corp.fileSystem.models.MyLockFile;
-import com.esaa.corp.fileSystem.views.MyFileSystemManager;
+import com.esaa.corp.commons.views.DataProcessor;
+import com.esaa.corp.printers.PrinterDataProcessor;
 import com.esaa.corp.server.models.ConfigFileModel;
 import com.esaa.corp.server.models.StartFile;
 import com.esaa.corp.server.util.StartFileParser;
+import com.esaa.corp.server.views.ServerListener;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,30 +26,22 @@ public class ServerStartForeground {
         }
         else {
 
-            final MyFileSystemManager myFileSystemManager = MyFileSystemManager.getInstance();
             final ConfigFileModel configFileModel = configFile.getConfigFileModel();
-            final int serverPort = configFileModel.getServerPort();
-            final File startFile = myFileSystemManager.getStartFile(serverPort);
-            final MyLockFile lockFile = new MyLockFile(startFile);
-            lockFile.deleteFileIfExist();
-            if (lockFile.isFileExist()) {
-                LOGGER.log(Level.SEVERE, "the port: " + serverPort +" is been using");
+
+            //(port >= 0 && port <= 65535) valid ports
+            /* todo check printer port ???
+            final String[] portNames = SerialPortList.getPortNames();
+            SerialPort serialPort = new SerialPort(configFile.getConfigFileModel().getPrinterPort());
+            serialPort.isOpened();
+            */
+
+            try {
+                final DataProcessor dataProcessor = new PrinterDataProcessor(configFileModel.getPrinterPort());
+                final ServerListener server = new ServerListener(configFileModel.getServerPort(),dataProcessor);
+                server.runServer();
             }
-            else {
-                lockFile.tryLock();
-                if (lockFile.isLocked()) {
-                    final File stopFile = myFileSystemManager.getStopFile(serverPort);
-                    final IndeterminateLoading loadingAnim = IndeterminateLoading.build();
-                    while (!stopFile.exists()) {
-                        loadingAnim.show();
-                    }
-                    loadingAnim.hide();
-                    System.out.println("adios");
-                }
-                else {
-                    LOGGER.log(Level.SEVERE, "the port: " + serverPort +" is been using");
-                }
-                lockFile.unLock();
+            catch (IOException | RuntimeException e) {
+                LOGGER.log(Level.SEVERE, "Fail to start server listener",e);
             }
         }
     }
