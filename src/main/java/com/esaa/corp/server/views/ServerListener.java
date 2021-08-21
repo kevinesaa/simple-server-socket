@@ -37,9 +37,9 @@ public class ServerListener {
         if (lockFile.isFileExist()) {
             throw new IOException( "the port: " + serverPort +" is been using");
         }
-        lockFile.tryLock();
+        //lockFile.tryLock();
         if(!lockFile.isLocked()) {
-            throw new IOException( "the port: " + serverPort +" is been using");
+          //  throw new IOException( "the port: " + serverPort +" is been using");
         }
         stopFile = myFileSystemManager.getStopFile(serverPort);
 
@@ -71,22 +71,20 @@ public class ServerListener {
 
     private void lookNewAtTheList() {
 
-        if(currentClientConnect != null) {
+        if (!clientConnectList.isEmpty()) {
 
-            if (!clientConnectList.isEmpty()) {
-
-                int index = -1;
-                for (int i = 0; i < clientConnectList.size(); i++) {
-                    if (clientConnectList.get(i).isClientConnected()) {
-                        index = i;
-                        break;
-                    }
-                }
-                if (index >= 0) {
-                    currentClientConnect = clientConnectList.remove(index);
+            int index = -1;
+            for (int i = 0; i < clientConnectList.size(); i++) {
+                if (clientConnectList.get(i).isClientConnected()) {
+                    index = i;
+                    break;
                 }
             }
+            if (index >= 0) {
+                currentClientConnect = clientConnectList.remove(index);
+            }
         }
+
     }
 
     private void checkCurrentClient() {

@@ -28,8 +28,9 @@ public class Main {
 
     private static final Logger LOGGER = Logger.getLogger(Main.class.getSimpleName());
 
-    public static void main(final String[] args) {
+    public static void main( String[] args) {
 
+        args = new String[]{Command.START_FOREGROUND.name(), "D:\\fuentes\\fiscal_printer_controller\\src\\main\\resources\\config.json"};
         LOGGER.log(Level.INFO, "new instance");
         if (args == null || args.length <= 0) {
 

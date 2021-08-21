@@ -2,11 +2,10 @@ package com.esaa.corp.server.views;
 
 import com.esaa.corp.commons.views.DataProcessor;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+
+import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +21,8 @@ public class ClientRequestProcessor implements Runnable {
 
     private InputStream inputStream;
     private OutputStream outputStream;
+
+    private String inputData;
 
     public ClientRequestProcessor(final File stopFile, final Socket clientSocket, final DataProcessor dataProcessor) {
         this.stopFile = stopFile;
@@ -39,9 +40,6 @@ public class ClientRequestProcessor implements Runnable {
         readClientRequest();
         setOutputStream();
         processRequest();
-        int i=0;
-        final int stop = 1000;
-        while (i++ < stop) {}
         responseRequest();
         close();
         setCompleted(true);
@@ -59,6 +57,19 @@ public class ClientRequestProcessor implements Runnable {
         LOGGER.log(Level.INFO,"reading client request");
         try {
             inputStream = clientSocket.getInputStream();
+            final BufferedInputStream bis = new BufferedInputStream(inputStream);
+            final ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+            final BufferedOutputStream bos = new BufferedOutputStream(byteOutputStream);
+            int b;
+            while ((b = bis.read()) != -1) {
+                bos.write(b);
+            }
+            bos.flush();
+            inputData = new String(byteOutputStream.toByteArray(),StandardCharsets.UTF_8);
+
+            bos.close();
+            byteOutputStream.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,6 +77,7 @@ public class ClientRequestProcessor implements Runnable {
 
     private void processRequest() {
         LOGGER.log(Level.INFO,"processing client request");
+        LOGGER.log(Level.INFO, "data from client: "+inputData);
     }
 
     private void responseRequest() {

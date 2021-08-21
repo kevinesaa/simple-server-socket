@@ -80,7 +80,7 @@ public class OnClientConnectListener implements Runnable {
 
     synchronized boolean isClientConnected() {
         synchronized (this) {
-            return clientConnected;
+            return clientProcessor!=null && clientConnected;
         }
     }
 
@@ -92,9 +92,12 @@ public class OnClientConnectListener implements Runnable {
 
     synchronized void processRequest(){
         synchronized (this) {
-            final Thread thread = new Thread(clientProcessor);
-            clientProcessor.setProcessing(true);
-            thread.start();
+            LOGGER.log(Level.INFO,"new processing thread");
+            if(clientProcessor != null) {
+                final Thread thread = new Thread(clientProcessor);
+                clientProcessor.setProcessing(true);
+                thread.start();
+            }
         }
     }
 
