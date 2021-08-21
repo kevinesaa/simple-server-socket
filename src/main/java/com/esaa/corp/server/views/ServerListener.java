@@ -37,9 +37,9 @@ public class ServerListener {
         if (lockFile.isFileExist()) {
             throw new IOException( "the port: " + serverPort +" is been using");
         }
-        //lockFile.tryLock();
+        lockFile.tryLock();
         if(!lockFile.isLocked()) {
-          //  throw new IOException( "the port: " + serverPort +" is been using");
+            throw new IOException( "the port: " + serverPort +" is been using");
         }
         stopFile = myFileSystemManager.getStopFile(serverPort);
 
