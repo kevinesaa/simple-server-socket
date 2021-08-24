@@ -2,7 +2,6 @@ package com.esaa.corp.server.views;
 
 import com.esaa.corp.commons.views.DataProcessor;
 
-
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
