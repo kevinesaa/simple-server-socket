@@ -12,20 +12,6 @@ import java.util.logging.Logger;
 public class Main {
 
 
-
-    /*
-    host : string {ip, dns}
-    net port: int
-    printer port: {com0, com1}
-    operation:{invoice,credit note}
-    {
-
-     }
-    */
-
-    /*start serverPort printerPort*/
-    /*stop serverPort*/
-
     private static final Logger LOGGER = Logger.getLogger(Main.class.getSimpleName());
 
     public static void main(final String[] args) {
